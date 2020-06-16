@@ -1,5 +1,6 @@
 package hu.tbs.authApp.model;
 
+import javax.validation.constraints.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,9 +18,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(length = 50, unique = true)
+    @NotNull
     private String username;
 
+    @NotNull
     private String password;
+
+    private String session;
 
     @ManyToMany
     @JoinTable(name="user_role",
