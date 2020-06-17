@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,9 @@ public class AuthAppApplication implements CommandLineRunner {
 	@Autowired
 	private PageRepository pageRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public static void main(String[] args) {
 		SpringApplication.run(AuthAppApplication.class, args);
 	}
@@ -35,19 +39,19 @@ public class AuthAppApplication implements CommandLineRunner {
 		//ROLES
 		Set<Role> roles=new HashSet<>();
 		Role administrator=Role.builder()
-				.name("ROLE_ADMIN")
+				.name("ADMIN")
 				.description("Adminisztrátor")
 				.build();
 		roles.add(administrator);
 
 		Role contentEditor=Role.builder()
-				.name("ROLE_EDITOR")
+				.name("EDITOR")
 				.description("Tartalomszerkesztő")
 				.build();
 		roles.add(contentEditor);
 
 		Role loggedInUser=Role.builder()
-				.name("ROLE_USER")
+				.name("USER")
 				.description("Bejelentkezett felhasználó")
 				.build();
 		roles.add(loggedInUser);
@@ -57,14 +61,14 @@ public class AuthAppApplication implements CommandLineRunner {
 		//USERS
 		User admin=User.builder()
 				.username("Admin")
-				.password("admin")
+				.password(passwordEncoder.encode("admin"))
 				.build();
 		admin.addRole(administrator);
 		userRepository.saveAndFlush(admin);
 
 		User user1=User.builder()
 				.username("User 1")
-				.password("user1")
+				.password(passwordEncoder.encode("user1"))
 				.build();
 		user1.addRole(contentEditor);
 		user1.addRole(loggedInUser);
@@ -72,14 +76,14 @@ public class AuthAppApplication implements CommandLineRunner {
 
 		User user2=User.builder()
 				.username("User 2")
-				.password("user2")
+				.password(passwordEncoder.encode("user2"))
 				.build();
 		user2.addRole(contentEditor);
 		userRepository.saveAndFlush(user2);
 
 		User user3=User.builder()
 				.username("User 3")
-				.password("user3")
+				.password(passwordEncoder.encode("user3"))
 				.build();
 		user3.addRole(loggedInUser);
 		userRepository.saveAndFlush(user3);

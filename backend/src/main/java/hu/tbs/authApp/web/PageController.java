@@ -8,23 +8,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/pages")
+@RequestMapping(value = "/pages/")
 public class PageController {
 
     @Autowired
     private PageRepository pageRepository;
 
-    @GetMapping("/contentEditor")
+    @GetMapping("contentEditor")
     public Page contentEditor (){
         return pageRepository.findByName("contentEditor");
     }
 
-    @GetMapping("/loggedInUser")
+    @GetMapping("loggedInUser")
     public Page loggedInUser (){
         return pageRepository.findByName("loggedInUser");
     }
 
-    @GetMapping("/admin")
+    @GetMapping("admin")
     public Page admin (){
         return pageRepository.findByName("admin");
     }

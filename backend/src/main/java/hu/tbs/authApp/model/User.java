@@ -27,7 +27,7 @@ public class User {
 
     private String session;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_role",
                 joinColumns = @JoinColumn(name = "userID"),
                 inverseJoinColumns = @JoinColumn(name = "roleID"))
