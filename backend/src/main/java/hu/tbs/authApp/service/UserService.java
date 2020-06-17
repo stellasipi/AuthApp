@@ -88,18 +88,18 @@ public class UserService {
     public SessionDTO login(HttpServletRequest request, User userFromBody){
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userFromBody.getUsername(), userFromBody.getPassword());
         Authentication authentication = authManager.authenticate(authenticationToken);
-
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-        HttpSession session = request.getSession(true);
-        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
-
-
         User authenticatedUser=userRepository.findByUsername(userFromBody.getUsername());
         Session userSession=authenticatedUser.getSession();
+
         if(!isCurrentSessionValid(userSession)) {
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
+            HttpSession session = request.getSession(true);
+            session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
+
             userSession.addNewSession(session.getId(), session.getCreationTime(), session.getMaxInactiveInterval());
             sessionRepository.flush();
+            LOGGER.info("New session has been created");
         }
 
         return sessionMapper.sessionToSessionDTO(userSession);
@@ -120,6 +120,7 @@ public class UserService {
         User user=userRepository.findByUsername(principal.getName());
         user.getSession().invalidateSession();
         sessionRepository.flush();
+        LOGGER.info("User succesfully logged out.");
     }
 
 }
