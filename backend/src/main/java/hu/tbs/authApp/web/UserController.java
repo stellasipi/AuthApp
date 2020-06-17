@@ -33,9 +33,10 @@ public class UserController {
 
     }
 
-    @GetMapping("logout")
-    public ResponseEntity logout(Principal principal) {
-
+    @GetMapping("user/logout")
+    public ResponseEntity logout(HttpSession session,Principal principal) {
+        //session.invalidate();
+        userService.logout(session,principal);
         return ResponseEntity.noContent().build();
     }
 

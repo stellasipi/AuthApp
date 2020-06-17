@@ -30,4 +30,10 @@ public class Session {
         this.creationDate=new Date(creationDate);
         this.expirationDate=new Date(Long.sum(creationDate,expirationTime*1000));
     }
+
+    public void invalidateSession(){
+        this.jSessionId=null;
+        this.creationDate=null;
+        this.expirationDate=null;
+    }
 }

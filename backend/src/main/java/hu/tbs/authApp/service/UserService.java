@@ -62,7 +62,7 @@ public class UserService {
     public UserDTO getUserDetails(Principal principal){
         User user=userRepository.findByUsername(principal.getName());
         UserDTO userDTO=userMapper.userToUserDTO(user);
-        userDTO.setLastLogin(new Date(System.currentTimeMillis()));
+        userDTO.setLastLogin(user.getSession().getCreationDate());
         return userDTO;
     }
 
@@ -113,6 +113,13 @@ public class UserService {
             return true;
         }
 
+    }
+
+    public void logout(HttpSession session,Principal principal){
+        session.invalidate();
+        User user=userRepository.findByUsername(principal.getName());
+        user.getSession().invalidateSession();
+        sessionRepository.flush();
     }
 
 }

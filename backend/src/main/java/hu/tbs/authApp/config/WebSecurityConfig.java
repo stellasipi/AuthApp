@@ -35,14 +35,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
+
                 .antMatchers("/login").permitAll()
-                .antMatchers("/logout").authenticated()
+                //.antMatchers("/kacsa").authenticated()
                 .antMatchers("/user/**").authenticated()
                 .antMatchers("/pages/contentEditor").hasAnyRole("ADMIN","EDITOR")
                 .antMatchers("/pages/loggedInUser").hasAnyRole("ADMIN","USER")
                 .antMatchers("/pages/admin").hasRole("ADMIN");
-//                .and()
-//                .httpBasic();
     }
 
     @Bean
