@@ -22,8 +22,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("login")
-    public SessionDTO login(HttpServletRequest request, @RequestBody User user) {
-        return userService.login(request, user);
+    public ResponseEntity<SessionDTO> login(HttpServletRequest request, @RequestBody User user) {
+        SessionDTO session=userService.login(request, user);
+        if(session!=null) {
+            return ResponseEntity.ok(session);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
 
     }
 
