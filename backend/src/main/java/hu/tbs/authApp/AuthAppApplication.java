@@ -2,9 +2,11 @@ package hu.tbs.authApp;
 
 import hu.tbs.authApp.model.Page;
 import hu.tbs.authApp.model.Role;
+import hu.tbs.authApp.model.Session;
 import hu.tbs.authApp.model.User;
 import hu.tbs.authApp.repository.PageRepository;
 import hu.tbs.authApp.repository.RoleRepository;
+import hu.tbs.authApp.repository.SessionRepository;
 import hu.tbs.authApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,6 +30,9 @@ public class AuthAppApplication implements CommandLineRunner {
 	private PageRepository pageRepository;
 
 	@Autowired
+	private SessionRepository sessionRepository;
+
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
@@ -35,7 +40,7 @@ public class AuthAppApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		//ROLES
 		Set<Role> roles=new HashSet<>();
 		Role administrator=Role.builder()
@@ -57,6 +62,7 @@ public class AuthAppApplication implements CommandLineRunner {
 		roles.add(loggedInUser);
 
 		roleRepository.saveAll(roles);
+
 
 		//USERS
 		User admin=User.builder()
@@ -87,6 +93,30 @@ public class AuthAppApplication implements CommandLineRunner {
 				.build();
 		user3.addRole(loggedInUser);
 		userRepository.saveAndFlush(user3);
+
+		//SESSIONS
+		Set<Session> sessions=new HashSet<>();
+		Session adminSession=Session.builder()
+				.build();
+		sessions.add(adminSession);
+
+		Session user1Session=Session.builder()
+				.build();
+		sessions.add(user1Session);
+
+		Session user2Session=Session.builder()
+				.build();
+		sessions.add(user2Session);
+
+		Session user3Session=Session.builder()
+				.build();
+		sessions.add(user3Session);
+
+		admin.createSession(adminSession);
+		user1.createSession(user1Session);
+		user2.createSession(user2Session);
+		user3.createSession(user3Session);
+		sessionRepository.saveAll(sessions);
 
 		//PAGES
 		Set<Page> pages=new HashSet<>();

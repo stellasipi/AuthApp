@@ -25,7 +25,8 @@ public class User {
     @NotNull
     private String password;
 
-    private String session;
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Session session;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_role",
@@ -37,5 +38,10 @@ public class User {
         if(roles==null) roles=new HashSet<>();
         this.roles.add(role);
         role.addUser(this);
+    }
+
+    public void createSession(Session session){
+        this.session=session;
+        session.setUser(this);
     }
 }

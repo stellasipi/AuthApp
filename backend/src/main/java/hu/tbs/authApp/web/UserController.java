@@ -1,7 +1,9 @@
 package hu.tbs.authApp.web;
 
+import hu.tbs.authApp.dto.SessionDTO;
 import hu.tbs.authApp.dto.UserDTO;
 import hu.tbs.authApp.model.Page;
+import hu.tbs.authApp.model.User;
 import hu.tbs.authApp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 
@@ -21,14 +25,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+
     @PostMapping("login")
-    public ResponseEntity login(){
-        return ResponseEntity.ok().build();
+    public SessionDTO login(HttpServletRequest request, @RequestBody User user) {
+        return userService.login(request, user);
+
     }
 
-    @PostMapping("logout") //?????
-    public void logout(){
+    @GetMapping("logout")
+    public ResponseEntity logout(Principal principal) {
 
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("user/details")

@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
-public class UserDTO {
-    private Long id;
-    private String username;
-
+public class SessionDTO {
+    private String jSessionId;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="Europe/Budapest")
-    private Date lastLogin;
-
-    private List<RoleDTO> roles;
+    private Date creationDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="Europe/Budapest")
+    private Date expirationDate;
 }
