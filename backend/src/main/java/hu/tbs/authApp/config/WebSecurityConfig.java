@@ -37,7 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 .antMatchers("/login").permitAll()
-                //.antMatchers("/kacsa").authenticated()
                 .antMatchers("/user/**").authenticated()
                 .antMatchers("/pages/contentEditor").hasAnyRole("ADMIN","EDITOR")
                 .antMatchers("/pages/loggedInUser").hasAnyRole("ADMIN","USER")

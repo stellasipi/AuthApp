@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.InvocationTargetException;
 import java.security.Principal;
 import java.util.Date;
 import java.util.ArrayList;
