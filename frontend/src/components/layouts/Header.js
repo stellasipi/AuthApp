@@ -31,13 +31,28 @@ class Header extends Component {
         }
     }
 
+    pageTitles = []
+
     render() {
+        if (this.state.pages) {
+            this.pageTitles = this.state.pages.map((page) => {
+                return <a key={page.id} className="nav-item nav-link" href={'/' + page.name}>{page.title}</a>
+            });
+        }
         if (sessionStorage.getItem('session')) {
             return (
                 <header>
-                    <nav className="navbar navbar-light bg-light">
-                        <a className="navbar-brand" style={headerStyle} href="/">AuthApp</a>
-                    </nav>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <a className="navbar-brand" style={headerStyle} href="/">AuthApp session</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div className="navbar-nav">
+                            {this.pageTitles}
+                        </div>
+                    </div>
+                </nav>
                 </header>
             )
         }

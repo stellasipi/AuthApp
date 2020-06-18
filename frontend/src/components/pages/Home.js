@@ -31,18 +31,18 @@ class Home extends Component {
             .catch((error) => { console.log(error) });
     }
 
-    rolesss = []
+    roles = []
 
     render() {
         if (this.state.userDetails.roles) {
-            this.rolesss = this.state.userDetails.roles.map((role) => { return <li key={role.id}>{role.description}</li> });
+            this.roles = this.state.userDetails.roles.map((role) => { return <li key={role.id}>{role.description}</li> });
         }
         return (
             <div style={componentStyle}>
                 <strong>Felhasználónév:</strong>
                 {this.state.userDetails.username}<br />
                 <strong>Csoportok:</strong>
-                {this.rolesss}
+                {this.roles}
                 <strong>Utolsó belépés:</strong>
                 {this.state.userDetails.lastLogin}
             </div>
