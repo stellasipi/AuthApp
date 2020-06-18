@@ -5,39 +5,59 @@ import PropTypes from 'prop-types'
 class Home extends Component {
 
     static contextTypes = {
-        fetchURL: PropTypes.string,
-        //session: PropTypes.object
+        fetchURL: PropTypes.string
     }
 
     state = {
-      userDetails:''
+        userDetails: ''
+        
     }
 
-    componentDidMount(){
-        document.cookie=`JSESSIONID=${sessionStorage.getItem('session')}`
-        //axios.defaults.withCredentials = true;
-        axios.get(this.context.fetchURL+'user/details', {
+    componentDidMount() {
+        document.cookie = `JSESSIONID=${sessionStorage.getItem('session')}`
+        //user deatails
+        axios.get(this.context.fetchURL + 'user/details', {
             headers: {
                 'content-Type': 'application/json',
                 "Cache-Control": "no-cache",
                 "Cookie": document.cookie
-                //Authorization: `JSESSIONID=AED67599AF546A8020ABC8B79623E8F0`
             },
             credentials: "same-origin",
             withCredentials: true
-           })
-        .then(res=>this.setState({userDetails: res.data}),console.log(sessionStorage.getItem('session')))
-        .catch((error)=>{console.log("bad :(")})
+        })
+            .then(
+                res => this.setState({ userDetails: res.data })
+            )
+            .catch((error) => { console.log(error) });
     }
 
+    rolesss = []
+
     render() {
+        if (this.state.userDetails.roles) {
+            this.rolesss = this.state.userDetails.roles.map((role) => { return <li key={role.id}>{role.description}</li> });
+        }
         return (
-            <div>
-                Home <br/>
-                Felhasználónév: {this.state.userDetails.username}
+            <div style={componentStyle}>
+                <strong>Felhasználónév:</strong>
+                {this.state.userDetails.username}<br />
+                <strong>Csoportok:</strong>
+                {this.rolesss}
+                <strong>Utolsó belépés:</strong>
+                {this.state.userDetails.lastLogin}
             </div>
         )
     }
+}
+
+const componentStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: '8px',
+    backgroundColor: '#f4f4f4',
+    textAlign: 'left',
+    margin: '10% 20%',
+    padding: '1% 1%'
 }
 
 export default Home;

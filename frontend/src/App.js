@@ -12,7 +12,6 @@ import Home from "./components/pages/Home";
 import NotFound from "./components/pages/NotFound";
 
 const fetchURL = 'http://localhost:8080/';
-//const session= '';
 
 
 class App extends Component {
@@ -26,12 +25,11 @@ class App extends Component {
   }
 
   static childContextTypes = {
-    fetchURL: PropTypes.string,
-    //session: PropTypes.object
+    fetchURL: PropTypes.string
   }
 
   getChildContext() {
-    return { fetchURL/*, session*/ }
+    return { fetchURL}
   }
 
   state = {
@@ -62,23 +60,8 @@ class App extends Component {
       />
     }
     return (
-      // <Router>
-      //   <div className="App">
-      //     <Header />
-      //     <Route exact path="/" render={props => (
-      //       <React.Fragment>
-      //         <Home />
-      //       </React.Fragment>
-      //     )} />
-      //     <Route path="/login" render={props => (
-      //       <React.Fragment>
-      //         <Login login={this.login} />
-      //       </React.Fragment>
-      //     )} />
-      //   </div>
-      // </Router>
       <Router>
-        <Header />
+        <Header/>
         <Container>
           <Switch>
             <PrivateRoute path="/" exact component={() => <Home />} />

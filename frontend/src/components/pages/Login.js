@@ -47,7 +47,7 @@ const formStyle = {
     borderRadius: '8px',
     backgroundColor: '#f4f4f4',
     textAlign: 'center',
-    margin: '10% 20%',
+    margin: '10% 20%'
 }
 
 const inputStyle = {
