@@ -46,11 +46,10 @@ class App extends Component {
       .then(
         res => this.setState({ session: res.data }, () => (sessionStorage.setItem('session', this.state.session.jsessionId)))
       )
-      .catch(error => {
-        swal("Upsz!", /*`error: ${error}`*/"A felhasználónév és/vagy a jelszó nem megfelelő.", "error")
+      .catch(() => { 
+         this.setState({ loginAttempt: this.state.loginAttempt+1 },()=>(swal("Upsz!","A felhasználónév és/vagy a jelszó nem megfelelő.", "error")))
       });
   }
-
 
 
   render() {
@@ -58,7 +57,6 @@ class App extends Component {
       return <Redirect to={{
         pathname: '/'
       }}
-      
       />
     }
     return (
@@ -70,7 +68,7 @@ class App extends Component {
             <PrivateRoute path="/admin" exact component={() => <SubPage subpage="admin" />} />
             <PrivateRoute path="/loggedInUser" exact component={() => <SubPage subpage="loggedInUser" />} />
             <PrivateRoute path="/contentEditor" exact component={() => <SubPage subpage="contentEditor" />} />
-            <Route path='/login' component={() => <Login login={this.login} />} />
+            <Route path='/login' component={() => <Login login={this.login} loginAttempt={this.state.loginAttempt}/>} />
             <Route exact component={() => <NotFound />} />
           </Switch>
         </Container>

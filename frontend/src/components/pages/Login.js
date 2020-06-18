@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Recaptcha from 'react-recaptcha';
+import swal from 'sweetalert';
 
 class Login extends Component {
     state = {
-        username:'',
-        password:''
+        username: '',
+        password: '',
+        verified: false
     }
 
     onChange = (e) => {
@@ -12,15 +15,38 @@ class Login extends Component {
             [e.target.name]: e.target.value
         })
     }
-    
-    onSubmit = (e) => {
-        e.preventDefault();
 
-        //pass fields
-        this.props.login(this.state.username,this.state.password);
-        
-        //clear fields
-        this.setState({username:'', password:''});
+    onSubmit = (e) => {
+        if (this.props.loginAttempt >= 3 && this.state.verified) {
+            e.preventDefault();
+
+            //pass fields
+            this.props.login(this.state.username, this.state.password);
+
+            //clear fields
+            this.setState({ username: '', password: '' });
+        } else if (this.props.loginAttempt < 3) {
+            e.preventDefault();
+
+            //pass fields
+            this.props.login(this.state.username, this.state.password);
+
+            //clear fields
+            this.setState({ username: '', password: '' });
+        } else {
+            swal("Upsz!", "Igazold magad, hogy nem vagy robot!", "warning")
+        }
+    }
+
+    recaptchaLoaded(){
+        console.log('Captcha loaded succesfully');
+
+    }
+
+    verifyCallback(response){
+        if(response){
+            this.setState({verified: true})
+        }
     }
 
     render() {
@@ -35,6 +61,14 @@ class Login extends Component {
                     <label htmlFor="password">Password:</label>
                     <input type="password" className="form-control" id="password" placeholder="Enter password" name="password" value={this.state.password} onChange={this.onChange} />
                 </div>
+                {this.props.loginAttempt >= 3 ?
+                    <Recaptcha
+                        sitekey="6Lf-bqYZAAAAAKh0EAPP8FeBQRIlRYplaU_YllWh"
+                        render="explicit"
+                        onloadCallback={this.recaptchaLoaded}
+                        verifyCallback={this.verifyCallback}
+                    />
+                    : <div></div>}
                 <button type="submit" className="btn btn-primary" style={inputStyle}>Submit</button>
             </form>
         )
@@ -63,8 +97,9 @@ const headerStyle = {
     padding: '1% 1%'
 }
 
-Login.propTypes={
-    login: PropTypes.func.isRequired
+Login.propTypes = {
+    login: PropTypes.func.isRequired,
+    loginAttempt: PropTypes.number.isRequired
 }
 
 export default Login;
