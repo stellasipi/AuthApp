@@ -30,7 +30,7 @@ class App extends Component {
   }
 
   getChildContext() {
-    return { fetchURL}
+    return { fetchURL }
   }
 
   state = {
@@ -38,17 +38,21 @@ class App extends Component {
     session: ''
   }
 
-  login = (username, password) => {
-    axios.post(fetchURL + 'login', {
-      username,
-      password
-    })
-      .then(
-        res => this.setState({ session: res.data }, () => (sessionStorage.setItem('session', this.state.session.jsessionId)))
-      )
-      .catch(() => { 
-         this.setState({ loginAttempt: this.state.loginAttempt+1 },()=>(swal("Upsz!","A felhasználónév és/vagy a jelszó nem megfelelő.", "error")))
-      });
+  login = (username, password, verified) => {
+    if (this.state.loginAttempt<3||(this.state.loginAttempt>=3 && verified)) {
+      axios.post(fetchURL + 'login', {
+        username,
+        password
+      })
+        .then(
+          res => this.setState({ session: res.data }, () => (sessionStorage.setItem('session', this.state.session.jsessionId)))
+        )
+        .catch(() => {
+          this.setState({ loginAttempt: this.state.loginAttempt + 1 }, () => (swal("Upsz!", "A felhasználónév és/vagy a jelszó nem megfelelő.", "error")))
+        });
+    } else {
+      swal("Upsz!", "Igazold magad, hogy nem vagy robot!", "warning")
+    }
   }
 
 
@@ -61,14 +65,14 @@ class App extends Component {
     }
     return (
       <Router>
-        <Header/>
+        <Header />
         <Container>
           <Switch>
             <PrivateRoute path="/" exact component={() => <Home />} />
             <PrivateRoute path="/admin" exact component={() => <SubPage subpage="admin" />} />
             <PrivateRoute path="/loggedInUser" exact component={() => <SubPage subpage="loggedInUser" />} />
             <PrivateRoute path="/contentEditor" exact component={() => <SubPage subpage="contentEditor" />} />
-            <Route path='/login' component={() => <Login login={this.login} loginAttempt={this.state.loginAttempt}/>} />
+            <Route path='/login' component={() => <Login login={this.login} loginAttempt={this.state.loginAttempt} />} />
             <Route exact component={() => <NotFound />} />
           </Switch>
         </Container>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Recaptcha from 'react-recaptcha';
-import swal from 'sweetalert';
 
 class Login extends Component {
     state = {
@@ -17,36 +16,31 @@ class Login extends Component {
     }
 
     onSubmit = (e) => {
-        if (this.props.loginAttempt >= 3 && this.state.verified) {
+        if (this.props.loginAttempt >= 3) {
             e.preventDefault();
 
             //pass fields
-            this.props.login(this.state.username, this.state.password);
+            this.props.login(this.state.username, this.state.password, this.state.verified);
 
             //clear fields
-            this.setState({ username: '', password: '' });
-        } else if (this.props.loginAttempt < 3) {
-            e.preventDefault();
+            this.setState({ username: '', password: '', verified: false });
 
-            //pass fields
-            this.props.login(this.state.username, this.state.password);
-
-            //clear fields
-            this.setState({ username: '', password: '' });
         } else {
-            swal("Upsz!", "Igazold magad, hogy nem vagy robot!", "warning")
+            e.preventDefault();
+            //pass fields
+            this.props.login(this.state.username, this.state.password, this.state.verified);
+
+            //clear fields
+            this.setState({ username: '', password: '', verified: false });
         }
     }
 
-    recaptchaLoaded(){
+    recaptchaLoaded = () => {
         console.log('Captcha loaded succesfully');
-
     }
 
-    verifyCallback(response){
-        if(response){
-            this.setState({verified: true})
-        }
+    verifyCallback = (response) => {
+        this.setState({ verified: true })
     }
 
     render() {
@@ -62,12 +56,14 @@ class Login extends Component {
                     <input type="password" className="form-control" id="password" placeholder="Enter password" name="password" value={this.state.password} onChange={this.onChange} />
                 </div>
                 {this.props.loginAttempt >= 3 ?
-                    <Recaptcha
-                        sitekey="6Lf-bqYZAAAAAKh0EAPP8FeBQRIlRYplaU_YllWh"
-                        render="explicit"
-                        onloadCallback={this.recaptchaLoaded}
-                        verifyCallback={this.verifyCallback}
-                    />
+                    <div style={inputStyle}>
+                        <Recaptcha
+                            sitekey="6Lf-bqYZAAAAAKh0EAPP8FeBQRIlRYplaU_YllWh"
+                            render="explicit"
+                            onloadCallback={this.recaptchaLoaded}
+                            verifyCallback={this.verifyCallback}
+                        />
+                    </div>
                     : <div></div>}
                 <button type="submit" className="btn btn-primary" style={inputStyle}>Submit</button>
             </form>
@@ -83,6 +79,12 @@ const formStyle = {
     textAlign: 'center',
     margin: '10% 20%'
 }
+
+// const captchaStyle = {
+//     textAlign: 'center !important',
+//     //alignSelf: 'center !important'
+//     display: 'inline-block !important'
+// }
 
 const inputStyle = {
     flex: '1',
