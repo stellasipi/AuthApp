@@ -44,6 +44,7 @@ class Header extends Component {
         })
             .then(
                 sessionStorage.clear(),
+                document.cookie='',
                 window.location.reload(false)
             )
             .catch((error) => { console.log(error) });
@@ -60,7 +61,7 @@ class Header extends Component {
         if (sessionStorage.getItem('session')) {
             return (
                 <header>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light" onClick={this.onLogout}>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <a className="navbar-brand" style={headerStyle} href="/">AuthApp</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="true" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -69,7 +70,7 @@ class Header extends Component {
                         <div className="navbar-nav">
                             {this.pageTitles}
                         </div>
-                        <button type="button" className="btn btn-outline-dark">Kijelentkezés</button>
+                        <button type="button" className="btn btn-outline-dark" onClick={this.onLogout}>Kijelentkezés</button>
                     </div>
                 </nav>
                 </header>

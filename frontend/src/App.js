@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Header from "./components/layouts/Header";
 import Login from "./components/pages/Login";
 import Home from "./components/pages/Home";
+import SubPage from "./components/pages/SubPage";
 import NotFound from "./components/pages/NotFound";
 
 const fetchURL = 'http://localhost:8080/';
@@ -57,6 +58,7 @@ class App extends Component {
       return <Redirect to={{
         pathname: '/'
       }}
+      
       />
     }
     return (
@@ -65,6 +67,9 @@ class App extends Component {
         <Container>
           <Switch>
             <PrivateRoute path="/" exact component={() => <Home />} />
+            <PrivateRoute path="/admin" exact component={() => <SubPage subpage="admin" />} />
+            <PrivateRoute path="/loggedInUser" exact component={() => <SubPage subpage="loggedInUser" />} />
+            <PrivateRoute path="/contentEditor" exact component={() => <SubPage subpage="contentEditor" />} />
             <Route path='/login' component={() => <Login login={this.login} />} />
             <Route exact component={() => <NotFound />} />
           </Switch>

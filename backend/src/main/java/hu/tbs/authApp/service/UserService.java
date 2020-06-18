@@ -70,15 +70,21 @@ public class UserService {
         List<Page> pages=new ArrayList<>();
         for(Role role:user.getRoles()){
             if(role.getName().equals("ADMIN")){
-                pages.add(pageRepository.findByName("admin"));
+                if(!pages.contains(pageRepository.findByName("admin"))) {
+                    pages.add(pageRepository.findByName("admin"));
+                }
             }
 
-            if(role.getName().equals("EDITOR")){
-                pages.add(pageRepository.findByName("contentEditor"));
+            if(role.getName().equals("EDITOR") || role.getName().equals("ADMIN")){
+                if(!pages.contains(pageRepository.findByName("contentEditor"))) {
+                    pages.add(pageRepository.findByName("contentEditor"));
+                }
             }
 
-            if(role.getName().equals("USER")){
-                pages.add(pageRepository.findByName("loggedInUser"));
+            if(role.getName().equals("USER") || role.getName().equals("ADMIN")){
+                if(!pages.contains(pageRepository.findByName("loggedInUser"))) {
+                    pages.add(pageRepository.findByName("loggedInUser"));
+                }
             }
         }
         return pages;
