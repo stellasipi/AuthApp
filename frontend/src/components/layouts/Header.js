@@ -32,6 +32,23 @@ class Header extends Component {
         }
     }
 
+    onLogout = (e) => {
+        axios.get(this.context.fetchURL + 'user/logout', {
+            headers: {
+                'content-Type': 'application/json',
+                "Cache-Control": "no-cache",
+                "Cookie": document.cookie
+            },
+            credentials: "same-origin",
+            withCredentials: true
+        })
+            .then(
+                sessionStorage.clear(),
+                window.location.reload(false)
+            )
+            .catch((error) => { console.log(error) });
+    }
+
     pageTitles = []
 
     render() {
@@ -43,7 +60,7 @@ class Header extends Component {
         if (sessionStorage.getItem('session')) {
             return (
                 <header>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light" onClick={this.onLogout}>
                     <a className="navbar-brand" style={headerStyle} href="/">AuthApp</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="true" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
