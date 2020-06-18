@@ -18,7 +18,7 @@ or **Docker**:
  2. Wait at least 30 seconds
  3. `docker exec mysql mysql -h127.0.0.1 -uroot -proot -e "CREATE SCHEMA auth-app;"`
  4. In the path *src/main/resources* rename the *application.properties* (e.g. to *application.propertiesWORKBENCH*), then rename *application.propertiesDOCKER* to *application.properties*
- 5. After `mvn install` (in the *Installing and running the backend* section) drop the schema: `docker exec mysql mysql -h127.0.0.1 -uroot -proot -e "DROP SCHEMA onlab_csotthonapp;"`
+ 5. After `mvn install` (in the *Installing and running the backend* section) drop the schema: `docker exec mysql mysql -h127.0.0.1 -uroot -proot -e "DROP SCHEMA auth-app;"`
  6. Then create the schema agin: `docker exec mysql mysql -h127.0.0.1 -uroot -proot -e "CREATE SCHEMA auth-app;"`
 
 ### Installing and running the backend
