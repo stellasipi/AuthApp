@@ -1,16 +1,8 @@
-
-
-
-
 # AtuhApp
 ### Introduction
-This project was created for my Project Laboratory course at BME (my university). I am scouting at a Hungarian scout team, where I am also leader. Every scout team usually has place where their events can take palce (in Hungarian this place's name is cserkészotthon and in free translation: scout home). Because this place is not our property, we have to clean it, log when someone opened or closed it and something is out of stock indicate it to someone.
-
-We used to do these things on paper that is why I started to create this app. The backend stores the data on a MySQL database and it runs on Spring Boot framework. The forntend uses the React JS libraries but currently not the cleanest code because I started to learn JavaScript, HTML, CSS and React with this project.
-
-The project now can log the closes and openings, the cleanings and the maintenances but I am working on the authentication, authorization and the refactoring.
+This project was created for the second round of a job interview.
 ### Preview
-<img src="imgs/01-login.PNG" width="200"> <img src="imgs/02-home.PNG" width="200"> 
+<img src="imgs/01_login.PNG" width="200"> <img src="imgs/02_home.PNG" width="200"> 
 ## Getting Started
 
 ### Set up database and schema access
