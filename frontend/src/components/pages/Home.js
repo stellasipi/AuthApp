@@ -4,35 +4,40 @@ import PropTypes from 'prop-types'
 
 class Home extends Component {
 
-    fetchURL = 'http://localhost:8080/';
+    static contextTypes = {
+        fetchURL: PropTypes.string,
+        //session: PropTypes.object
+    }
 
     state = {
       userDetails:''
     }
 
-    
-
     componentDidMount(){
-        axios.get(this.fetchURL+'user/details', {
-            // headers: {
-            //     Cookie: 'JSESSIONID=6A0AC7361076C11FE6D67843B16A1543'// + this.props.session.jsessionId //the token is a variable which holds the token
-            // }
+        document.cookie=`JSESSIONID=${sessionStorage.getItem('session')}`
+        //axios.defaults.withCredentials = true;
+        axios.get(this.context.fetchURL+'user/details', {
+            headers: {
+                'content-Type': 'application/json',
+                "Cache-Control": "no-cache",
+                "Cookie": document.cookie
+                //Authorization: `JSESSIONID=AED67599AF546A8020ABC8B79623E8F0`
+            },
+            credentials: "same-origin",
             withCredentials: true
            })
-        .then(res=>this.setState({userDetails: res.data}))
+        .then(res=>this.setState({userDetails: res.data}),console.log(sessionStorage.getItem('session')))
+        .catch((error)=>{console.log("bad :(")})
     }
 
     render() {
         return (
             <div>
-                Home
+                Home <br/>
+                Felhasználónév: {this.state.userDetails.username}
             </div>
         )
     }
-}
-
-Home.propTypes={
-    session: PropTypes.object.isRequired
 }
 
 export default Home;
