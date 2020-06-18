@@ -70,38 +70,48 @@ public class UserService {
         List<Page> pages=new ArrayList<>();
         for(Role role:user.getRoles()){
             if(role.getName().equals("ADMIN")){
-                pages.add(pageRepository.findByName("admin"));
+                if(!pages.contains(pageRepository.findByName("admin"))) {
+                    pages.add(pageRepository.findByName("admin"));
+                }
             }
 
-            if(role.getName().equals("EDITOR")){
-                pages.add(pageRepository.findByName("contentEditor"));
+            if(role.getName().equals("EDITOR") || role.getName().equals("ADMIN")){
+                if(!pages.contains(pageRepository.findByName("contentEditor"))) {
+                    pages.add(pageRepository.findByName("contentEditor"));
+                }
             }
 
-            if(role.getName().equals("USER")){
-                pages.add(pageRepository.findByName("loggedInUser"));
+            if(role.getName().equals("USER") || role.getName().equals("ADMIN")){
+                if(!pages.contains(pageRepository.findByName("loggedInUser"))) {
+                    pages.add(pageRepository.findByName("loggedInUser"));
+                }
             }
         }
         return pages;
     }
 
     public SessionDTO login(HttpServletRequest request, User userFromBody){
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userFromBody.getUsername(), userFromBody.getPassword());
-        Authentication authentication = authManager.authenticate(authenticationToken);
-        User authenticatedUser=userRepository.findByUsername(userFromBody.getUsername());
-        Session userSession=authenticatedUser.getSession();
+        if(userRepository.findByUsername(userFromBody.getUsername())!=null) {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userFromBody.getUsername(), userFromBody.getPassword());
+            Authentication authentication = authManager.authenticate(authenticationToken);
+            User authenticatedUser = userRepository.findByUsername(userFromBody.getUsername());
+            Session userSession = authenticatedUser.getSession();
 
-        if(!isCurrentSessionValid(userSession)) {
-            SecurityContext securityContext = SecurityContextHolder.getContext();
-            securityContext.setAuthentication(authentication);
-            HttpSession session = request.getSession(true);
-            session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
+            if (!isCurrentSessionValid(userSession)) {
+                SecurityContext securityContext = SecurityContextHolder.getContext();
+                securityContext.setAuthentication(authentication);
+                HttpSession session = request.getSession(true);
+                session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
-            userSession.addNewSession(session.getId(), session.getCreationTime(), session.getMaxInactiveInterval());
-            sessionRepository.flush();
-            LOGGER.info("New session has been created");
+                userSession.addNewSession(session.getId(), session.getCreationTime(), session.getMaxInactiveInterval());
+                sessionRepository.flush();
+                LOGGER.info("New session has been created");
+            }
+
+            return sessionMapper.sessionToSessionDTO(userSession);
+        }else {
+            return null;
         }
-
-        return sessionMapper.sessionToSessionDTO(userSession);
     }
 
     public Boolean isCurrentSessionValid(Session session){

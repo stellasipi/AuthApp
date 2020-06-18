@@ -122,18 +122,21 @@ public class AuthAppApplication implements CommandLineRunner {
 		Set<Page> pages=new HashSet<>();
 		Page adminPage=Page.builder()
 				.name("admin")
+				.title("Admin")
 				.message("Ez a adminisztrátorok aloldala.")
 				.build();
 		pages.add(adminPage);
 
 		Page loggedInUserPage=Page.builder()
 				.name("loggedInUser")
+				.title("Bejelentkezett felhasználó")
 				.message("Ez a bejelentkezett felhasználók aloldala.")
 				.build();
 		pages.add(loggedInUserPage);
 
 		Page contentEditorPAge=Page.builder()
 				.name("contentEditor")
+				.title("Tartalomszerkesztő")
 				.message("Ez a tartalomszerkesztők aloldala.")
 				.build();
 		pages.add(contentEditorPAge);

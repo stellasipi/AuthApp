@@ -21,6 +21,9 @@ public class Page {
     private String name;
 
     @NotNull
+    private String title;
+
+    @NotNull
     private String message;
 
 }
