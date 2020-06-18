@@ -2,7 +2,7 @@
 ### Introduction
 This project was created for the second round of a job interview.
 ### Preview
-<img src="imgs/01_login.png" width="200"> <img src="imgs/02_home.png" width="200"> 
+<img src="imgs/01_login.png" width="400"> <img src="imgs/02_home.png" width="400"> 
 ## Getting Started
 
 ### Set up database and schema access

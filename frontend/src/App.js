@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -38,14 +38,26 @@ class App extends Component {
     session: ''
   }
 
+  // componentDidMount() {
+  //   this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
+  // }
+  // componentWillUnmount() {
+  //   console.log("Timer");
+  // }
+
   login = (username, password, verified) => {
-    if (this.state.loginAttempt<3||(this.state.loginAttempt>=3 && verified)) {
+    if (this.state.loginAttempt < 3 || (this.state.loginAttempt >= 3 && verified)) {
       axios.post(fetchURL + 'login', {
         username,
         password
       })
         .then(
-          res => this.setState({ session: res.data }, () => (sessionStorage.setItem('session', this.state.session.jsessionId)))
+          res => this.setState({
+            session: res.data
+          },
+            () => (sessionStorage.setItem('session', this.state.session.jsessionId))
+            /*,() => (swal("Siker", "Sikeresen bejelentkeztél", "success"))*/
+          )
         )
         .catch(() => {
           this.setState({ loginAttempt: this.state.loginAttempt + 1 }, () => (swal("Upsz!", "A felhasználónév és/vagy a jelszó nem megfelelő.", "error")))
@@ -64,7 +76,7 @@ class App extends Component {
       />
     }
     return (
-      <Router>
+      <BrowserRouter>
         <Header />
         <Container>
           <Switch>
@@ -76,7 +88,7 @@ class App extends Component {
             <Route exact component={() => <NotFound />} />
           </Switch>
         </Container>
-      </Router>
+      </BrowserRouter>
     )
   };
 }
