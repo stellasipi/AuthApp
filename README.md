@@ -55,6 +55,7 @@ The text you have to use is **inside** the square bracket [].
 - username: [User 1] | password: [user1]
 - username: [User 2] | password: [user2]
 - username: [User 2] | password: [user3]
+
 **Important issue: When you succesfully logged in you will be redirected to localhost:3000/, then you have to refresh the page to render the component again**
 
 
