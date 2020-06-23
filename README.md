@@ -22,7 +22,7 @@ or **Docker**:
  6. Then create the schema agin: `docker exec mysql mysql -h127.0.0.1 -uroot -proot -e "CREATE SCHEMA auth-app;"`
 
 ### Installing and running the backend
-Go to the *backend* folder, than:
+Go to the *backend* folder, then:
 
 ```
 mvn install
