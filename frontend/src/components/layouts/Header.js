@@ -15,19 +15,7 @@ class Header extends Component {
 
     componentDidMount() {
         if (sessionStorage.getItem('session')) {
-            axios.get(this.context.fetchURL + 'user/pages', {
-                headers: {
-                    'content-Type': 'application/json',
-                    "Cache-Control": "no-cache",
-                    "Cookie": document.cookie
-                },
-                credentials: "same-origin",
-                withCredentials: true
-            })
-                .then(
-                    res => this.setState({ pages: res.data })
-                )
-                .catch((error) => { console.log(error) });
+            this.fetchData(this.props.session);
         }
     }
 
