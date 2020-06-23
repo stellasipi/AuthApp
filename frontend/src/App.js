@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, /*Redirect,*/ Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -38,13 +38,6 @@ class App extends Component {
     session: ''
   }
 
-  // componentDidMount() {
-  //   this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
-  // }
-  // componentWillUnmount() {
-  //   console.log("Timer");
-  // }
-
   login = (username, password, verified) => {
     if (this.state.loginAttempt < 3 || (this.state.loginAttempt >= 3 && verified)) {
       axios.post(fetchURL + 'login', {
@@ -56,7 +49,6 @@ class App extends Component {
             session: res.data
           },
             () => (sessionStorage.setItem('session', this.state.session.jsessionId))
-            /*,() => (swal("Siker", "Sikeresen bejelentkeztél", "success"))*/
           )
         )
         .catch(() => {
@@ -69,22 +61,16 @@ class App extends Component {
 
 
   render() {
-    if (this.state.session.jsessionId) {
-      return <Redirect to={{
-        pathname: '/'
-      }}
-      />
-    }
     return (
       <BrowserRouter>
-        <Header />
+        <Header session={this.state.session}/>
         <Container>
           <Switch>
             <PrivateRoute path="/" exact component={() => <Home />} />
             <PrivateRoute path="/admin" exact component={() => <SubPage subpage="admin" />} />
             <PrivateRoute path="/loggedInUser" exact component={() => <SubPage subpage="loggedInUser" />} />
             <PrivateRoute path="/contentEditor" exact component={() => <SubPage subpage="contentEditor" />} />
-            <Route path='/login' component={() => <Login login={this.login} loginAttempt={this.state.loginAttempt} />} />
+            <Route path='/login' component={() => <Login login={this.login} loginAttempt={this.state.loginAttempt} session={this.state.session}/>} />
             <Route exact component={() => <NotFound />} />
           </Switch>
         </Container>
