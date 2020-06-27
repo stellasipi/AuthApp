@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Recaptcha from 'react-recaptcha';
+import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
     state = {
@@ -44,6 +45,9 @@ class Login extends Component {
     }
 
     render() {
+        if (this.props.session.jsessionId) {
+            return <Redirect to='/'/>
+          }
         return (
             <form style={formStyle} onSubmit={this.onSubmit}>
                 <h2 style={headerStyle}>Bejelentkezés</h2>
@@ -80,12 +84,6 @@ const formStyle = {
     margin: '10% 20%'
 }
 
-// const captchaStyle = {
-//     textAlign: 'center !important',
-//     //alignSelf: 'center !important'
-//     display: 'inline-block !important'
-// }
-
 const inputStyle = {
     flex: '1',
     margin: '16px 16px',
@@ -101,7 +99,8 @@ const headerStyle = {
 
 Login.propTypes = {
     login: PropTypes.func.isRequired,
-    loginAttempt: PropTypes.number.isRequired
+    loginAttempt: PropTypes.number.isRequired,
+    session: PropTypes.any.isRequired 
 }
 
 export default Login;
