@@ -1,6 +1,16 @@
+
 # AuthApp
 ### Introduction
-This project was created for the second round of a job interview.
+This project is an authentication application and it was built with Spring Boot and ReactJS. The application contains four user and they have differents roles (you can find these in the *Credentials* section). 
+
+There are three different roles: 
+- *Editor*: has access for the Editor page
+- *User*: has access for the User page
+- *Administrator*: has access for the Administrator and all of the other pages
+If somebody has multiple roles then he/she has access for multiple pages.
+
+The first three login attemption you will have to fill a captcha and verify you are not a robot. After a succesful login you will redirect to the main page that contains your username, roles and the last time when you logged in and the header will show you the accessible subpages.
+
 ### Preview
 <img src="imgs/01_login.png" width="400"> <img src="imgs/02_home.png" width="400"> 
 ## Getting Started
@@ -51,12 +61,12 @@ npm start
 
 ### Credentials
 The text you have to use is **inside** the square bracket [].
-- username: [Admin] | password: [admin]
-- username: [User 1] | password: [user1]
-- username: [User 2] | password: [user2]
-- username: [User 2] | password: [user3]
-
-
+|Username  |Password  |Role(s)        |
+|:--------:|:--------:|:-------------:|
+|[Admin]   |[admin]   |Administrator  |
+|[User 1]  |[user1]   |Editor, User   |
+|[User 2]  |[user2]   |Editor         |
+|[User 3]  |[user3]   |User           |
 
 ## Built With
 * [Spring Boot](https://spring.io/projects/spring-boot) 
