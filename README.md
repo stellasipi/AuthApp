@@ -7,9 +7,8 @@ There are three different roles:
 - *Editor*: has access for the Editor page
 - *User*: has access for the User page
 - *Administrator*: has access for the Administrator and all of the other pages
-If somebody has multiple roles then he/she has access for multiple pages.
 
-The first three login attemption you will have to fill a captcha and verify you are not a robot. After a succesful login you will redirect to the main page that contains your username, roles and the last time when you logged in and the header will show you the accessible subpages.
+If somebody has multiple roles then he/she has access for multiple pages. The first three login attemption you will have to fill a captcha and verify you are not a robot. After a succesful login you will redirect to the main page that contains your username, roles and the last time when you logged in and the header will show you the accessible subpages.
 
 ### Preview
 <img src="imgs/01_login.png" width="400"> <img src="imgs/02_home.png" width="400"> 
